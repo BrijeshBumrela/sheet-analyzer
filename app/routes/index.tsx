@@ -166,7 +166,7 @@ function Home() {
         <span>Limit(Optional): </span>
         <input
           type="number"
-          value={offset}
+          value={limit}
           onChange={(e) => setLimit(Number(e.target.value))}
         />
         <h3>How many rows to analyze - {limit}</h3>
