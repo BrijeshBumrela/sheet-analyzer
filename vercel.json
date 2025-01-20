@@ -1,0 +1,8 @@
+{
+    "functions": {
+        "server/*.ts": {
+            "memory": 3009,
+            "maxDuration": 60
+        }
+    }
+}
