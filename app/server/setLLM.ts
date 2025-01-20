@@ -14,21 +14,23 @@ export async function setLLM({
   const response = await openai.chat.completions.create({
     model: "gpt-4o-mini",
     temperature: 0.05,
-    max_tokens: 1000,
+    response_format: {
+      type: "json_object",
+    },
     messages: [
       {
         role: "system",
         content: `
         You are a helpful assistant that normalizes data from a Google Sheet.
-        Your task is to process rows of data where each row contains key-value pairs.
-        The keys may vary but have similar meanings. Map similar keys to standardized ones:
-          - "First name", "name", "full name" → "name"
-          - "email", "email id", "email address" → "email"
-        Ignore unrecognized keys and return only the standardized fields.
-        Input is an array of strings where each string is one cell and has the fields like email and name separated by \n.
-          Example: ['name: Anjali\nemail Id: anjali.email@gmail.com', 'First name: Brijesh\nemail: email@gmail.com']
+        Your task is to find information about the company names.
+        Specifically I want to know its country, company website (if available otherwise return None), LinkedIn page, Industry
+        Input is an array of strings where each string is a company name
+          Example: ['AMNEAL IRELAND LTD.', 'BAYER AG']
         Return the data as a valid JSON array, starting directly with '[', with no extra characters or text. Here's the structure:
-          Example: [{ "name": "Brijesh", "email": "brijesh@gmail.com" }, { "name": "Anjali", "email": "anjali@gmail.com" }]
+          Example: [
+            { "name": "AMNEAL IRELAND LTD.", "country": "Germany", companyWebsite: "http://website.link", linkedIn: "https://linkedin.com/amneal", industry: "Pharmaceutical Manufacturing" }, 
+            { "name": "BAYER AG", "country": "India", companyWebsite: "http://website.link", linkedIn: "https://linkedin.com/bayer", industry: "Manufacturing" }
+          ]
 
         `,
       },
